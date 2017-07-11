@@ -6,6 +6,7 @@ import App from '../app'
 import Greetings from '../greetings'
 import SignUp from '../signup/signup'
 
+
 export default (
   <Route path='/' component={App}>
   <IndexRoute component={Greetings} />

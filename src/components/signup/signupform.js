@@ -9,6 +9,7 @@ constructor(props){
     confirmpassword: '',
     email: ''
   }
+  console.log(this.props);
 }
 onChange =(e) =>{
   this.setState({[e.target.name]: e.target.value})
@@ -17,7 +18,7 @@ onChange =(e) =>{
 
 onSubmit =(e) =>{
   e.preventDefault();
-  console.log(this.state);
+this.props.userSignupRequest(this.state)
 }
 
 
@@ -76,4 +77,6 @@ onSubmit =(e) =>{
     )
   }
 }
+
+
 export default SignupForm
