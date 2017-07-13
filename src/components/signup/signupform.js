@@ -3,6 +3,9 @@ import classnames from 'classnames'
 
 import validateInput from '../../shared/signup'
 
+import { browserHistory} from 'react-router'
+import { connect } from 'react-redux'
+
 class SignupForm extends Component{
 constructor(props){
   super(props)
@@ -14,7 +17,6 @@ constructor(props){
     errors: {},
     isLoading: false
   }
-  console.log(this.props);
 }
 onChange =(e) =>{
   this.setState({[e.target.name]: e.target.value})
@@ -34,22 +36,30 @@ return isValid
 onSubmit =(e) =>{
   this.setState({erros: {}, isLoading: true })
   e.preventDefault();
+
 if(this.isValid()){
-  this.props.userSignupRequest(this.state)
+  this.props.addFlashMessages({
+    type: 'success',
+    text:'You have signed up successfully'
+  });
+browserHistory.push('/')
+}
+   this.props.userSignupRequest(this.state)
 .catch( error =>{
   if(error.response){
-    console.log(error.response.data);
     this.setState({errors: error.response.data, isLoading: false})
   }
+
 })
 
-}
+
 
 }
 
 
   render(){
   const {errors} = this.state
+
     return(
       <form onSubmit={this.onSubmit}>
         <h1>Join Our COmmunity</h1>
@@ -111,12 +121,20 @@ if(this.isValid()){
         </div>
 
         <div className='form-group'>
-          <button disabled={this.state.isLoading} className='btn btn-success'> Submit</button>
+          <button className='btn btn-success'> Submit</button>
         </div>
       </form>
     )
   }
 }
 
+// SignupForm.contextTypes = {
+//   router: React.PropTypes.isRequired
+// }
 
-export default SignupForm
+function mapStateToProps(state){
+  return {
+    info: state
+  }
+}
+export default connect(mapStateToProps)(SignupForm)
